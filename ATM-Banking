@@ -1,0 +1,135 @@
+package sec_Week_learningProjects;
+import java.util.Scanner;
+public class ATM_Banking1 {
+//public static Scanner sc=new Scanner(System.in);
+public static String history="";
+public static void ShowMenu() {
+	System.out.println("1.Current Balance");
+    System.out.println("2.Deposit Amount");
+    System.out.println("3.Withdraw Amount");
+    System.out.println("4. Transition History");
+    System.out.println("5.About ATM ");
+    System.out.println("6.Exit");
+    System.out.println("Click your choice");
+   // int choice=sc.nextInt();
+}
+public static double checkBalance(double balance) {
+	System.out.println("Current Balance:" +balance);
+	return balance;
+}
+public static double deposit(Scanner sc,double balance) {
+	 System.out.println("Enter Your Deposit Amount");
+		 double deposit=sc.nextDouble();
+		 
+		if(deposit>0) {
+		 balance+=deposit;
+		 history+="Deposited:"+deposit+"\n";
+		System.out.println("Successfully your deposit:");
+		System.out.println("Your New balance:" + balance);
+		}else
+		System.out.println("Invalid your deposit Please enter positive amount! Thank You!");
+    return balance;
+}
+public static double withdraw(Scanner sc,double balance) {
+	 System.out.println("Enter Withdraw Amount");
+	 double withdraw=sc.nextDouble();
+	 if(withdraw<=0)
+		 System.out.println("Invalid your withdraw amount.Please enter positive amount!");
+	 else if(withdraw>balance)
+		 System.out.println("Insufficient balance ! Try again!");
+	 else
+	 {
+		 balance-=withdraw;
+		 history+="Withdraw:" +withdraw +"\n";
+		 System.out.println("Your Withdraw Successfully!" +withdraw);
+		 System.out.println("New Balance :" +balance);
+	 }
+
+	return balance;
+}
+public static boolean login(Scanner sc) {
+	 int correctPin = 423165;
+      int attempts=3;
+      while(attempts>0) {
+    	  System.out.println("Enter Your PIN ");
+    	  int enteredpin=sc.nextInt();
+    	  if(enteredpin==correctPin)
+    	  {
+    		  System.out.println("Login Successfully!");
+    		  return true;
+    	  }
+    	  else
+    	  {
+    		  System.out.println("Wrong PIN! Try again");
+    		  System.out.println("Remaining attempts:"+ attempts);
+    		  attempts--;
+    	  }
+      }
+      return false;
+	
+	
+	
+}
+public static void showTransitionhistory() {
+	System.out.println("\n Transition History :");
+	
+	if(history.isEmpty()) {
+		System.out.println("No Transition yet!");
+		}
+	else
+	{
+           System.out.println(history);       
+
+	}
+}
+
+	public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+    
+double balance =50000.00;
+     //double balance=sc.nextDouble();
+    boolean loginsuccess= login(sc);
+    if(!loginsuccess)
+    {
+    	System.out.println("Too many failed attempts. ATM Locked !");
+    	sc.close();
+    	return;
+    }
+     System.out.println("-----Welcome from Lucky ATM-----");
+     boolean running = true;
+	 while(running) {
+     ShowMenu();
+     int choice=sc.nextInt();
+     switch(choice)
+     {
+     case 1:
+    	// System.out.println("Enter your current balance");
+    	 
+    	 checkBalance(balance);
+    	 break;
+     case 2:
+    	balance=deposit(sc, balance);
+    	 break;
+     case 3:
+    	 balance=withdraw(sc, balance);
+    	    	 break;
+     case 4:
+         showTransitionhistory();
+         break;
+     case 5:
+    	 System.out.println("This ATM is creating with Java Program");
+    	 break;
+     
+     case 6:
+    	 System.out.println("Thank you for using ATM!");
+    	 running=false;
+    	 break;
+    default:
+    	System.out.println("Invalid Choice! Try again!");
+    	break;
+     }
+     }
+     sc.close();
+	}
+   
+}
